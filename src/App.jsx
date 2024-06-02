@@ -1,10 +1,10 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Home from './screens/Home';
 import Login from './screens/Login';
 import Dashboard from './screens/Dashboard';
+import Register from './screens/Register';
 
 
 
@@ -19,6 +19,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
                     <Route path="/" element={<Home />} />
                 </Routes>
