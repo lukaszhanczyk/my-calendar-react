@@ -4,21 +4,21 @@ import { useAuth } from "../contexts/AuthContext";
 import { Col, Container, Form, Input, Row, Button } from "reactstrap";
 import "./Login.css";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleRegisterAccount = () => {
     login();
     navigate("/dashboard");
   };
 
-  const handleCreateAccount = () => {
-    navigate("/register");
-  }
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   return (
     <Container fluid className="login-container">
@@ -26,19 +26,19 @@ const Login = () => {
         <Col className="left-side"></Col>
         <Col className="right-side d-flex align-items-center justify-content-center">
           <div className="login-form">
-            <h2>Login</h2>
+            <h2>Register</h2>
             <Form>
               <Input className="mb-3" placeholder="Email" />
               <Input type="password" className="mb-3" placeholder="Password" />
-              <Button color="primary" onClick={handleLogin}>
-                Login
+              <Button color="primary" onClick={handleRegisterAccount}>
+                Register
               </Button>
               <Button
                 color="primary"
-                onClick={handleCreateAccount}
+                onClick={handleLogin}
                 style={{ marginLeft: 20 }}
               >
-                Create new account
+                Log into existing account
               </Button>
             </Form>
           </div>
@@ -48,4 +48,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
