@@ -1,0 +1,18 @@
+/* src/Login.css */
+.login-container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.left-side {
+  background-color: #050c9c;
+}
+
+.right-side {
+  background-color: white;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+}
