@@ -1,0 +1,39 @@
+.day {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  margin: -1px 0 0 -1px;
+  position: relative;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.date-number {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+.current-month .date-number {
+  color: black; /* Color for current month */
+}
+
+.other-month .date-number {
+  color: #b4b5b6; /* Muted text color for other months */
+}
+
+.day.today .date-number {
+  border-radius: 50%;
+  background-color: lightblue;
+  color: white;
+  font-weight: bold;
+  width: 30px;
+  height: 30px;
+}

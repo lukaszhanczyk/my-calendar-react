@@ -1,0 +1,9 @@
+
+.calendar-container {
+  width: auto;
+  margin: 0 auto;
+}
+
+.day {
+  height: 100px;
+}
