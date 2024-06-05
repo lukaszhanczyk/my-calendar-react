@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Col, Container, Form, Input, Row, Button } from "reactstrap";
+import axiosClient from "../client/axios-client";
 import "./Login.css";
 
 const Login = () => {
@@ -11,14 +12,22 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    login();
+  const handleLogin = (event) => {
+    axiosClient
+      .post("/auth/login", { username: email, password })
+      .then((response) => {
+        console.log("response", response);
+        login();
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
     navigate("/dashboard");
   };
 
   const handleCreateAccount = () => {
     navigate("/register");
-  }
+  };
 
   return (
     <Container fluid className="login-container">
