@@ -11,18 +11,19 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = (event) => {
-    axiosClient
-      .post("/auth/login", { username: email, password })
-      .then((response) => {
-        console.log("response", response);
-        login();
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-    navigate("/dashboard");
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axiosClient.post("/auth/login", { username: email, password });
+      console.log("response", response);
+      login(); 
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("error", error);
+      setError("Failed to login. Please check your credentials and try again.");
+    }
   };
 
   const handleCreateAccount = () => {
@@ -36,10 +37,21 @@ const Login = () => {
         <Col className="right-side d-flex align-items-center justify-content-center">
           <div className="login-form">
             <h2>Login</h2>
-            <Form>
-              <Input className="mb-3" placeholder="Email" />
-              <Input type="password" className="mb-3" placeholder="Password" />
-              <Button color="primary" onClick={handleLogin}>
+            <Form onSubmit={handleLogin}>
+              <Input 
+                className="mb-3" 
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+              <Input 
+                type="password" 
+                className="mb-3" 
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              <Button color="primary" type="submit">
                 Login
               </Button>
               <Button
@@ -49,6 +61,7 @@ const Login = () => {
               >
                 Create new account
               </Button>
+              {error && <p className="text-danger">{error}</p>}
             </Form>
           </div>
         </Col>
