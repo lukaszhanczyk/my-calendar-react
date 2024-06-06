@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import Month from '../calendar/Month.jsx';
 import dayjs from 'dayjs';
+import { Button } from 'reactstrap';
+import AddEventModal from './AddEventModal.jsx';
+import EventDetailsModal from './EventDetailModal.jsx';
 import "./Dashboard.css";
 
 function getMonth(year, month) {
@@ -38,6 +41,10 @@ const Dashboard = () => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   const [events, setEvents] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [eventDetailsModalOpen, setEventDetailsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const daysMatrix = getMonth(currentYear, currentMonth);
 
@@ -54,31 +61,73 @@ const Dashboard = () => {
   };
 
   const handleDayClick = (date) => {
-    const eventText = prompt("Enter event for this day:");
-    if (eventText) {
-      // Update events state with the new event
-      setEvents(prevEvents => [
-        ...prevEvents,
-        { date, event: eventText }
-      ]);
+    setSelectedDate(date);
+    const existingEvent = events.find(event => event.date.isSame(date, 'day'));
+    if (existingEvent) {
+      setSelectedEvent(existingEvent);
+      setEventDetailsModalOpen(true);
+    } else {
+      setModalOpen(true);
     }
+  };
+
+  const handleAddEvent = (eventTitle, eventDetails, color) => {
+    const newEvent = { date: selectedDate, title: eventTitle, details: eventDetails, color };
+    setEvents(prevEvents => [...prevEvents, newEvent]);
+    setModalOpen(false);
+  };
+
+  const handleDeleteEvent = (eventToDelete) => {
+    setEvents(prevEvents => prevEvents.filter(event => event !== eventToDelete));
+    setEventDetailsModalOpen(false);
+  };
+
+  const handleEditEvent = (updatedEvent) => {
+    setEvents(prevEvents => prevEvents.map(event => event === selectedEvent ? updatedEvent : event));
+    setEventDetailsModalOpen(false);
+  };
+
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const handleEventDotClick = (event) => {
+    setSelectedEvent(event);
+    setEventDetailsModalOpen(true);
+  };
+
+  const toggleEventDetailsModal = () => {
+    setEventDetailsModalOpen(!eventDetailsModalOpen);
   };
 
   return (
     <div className="container mt-4">
       <h2>Dashboard</h2>
       <p>This is a protected page.</p>
-      <button className="btn btn-primary mb-4" onClick={logout}>Logout</button>
+      <Button className="btn btn-primary mb-4" onClick={logout}>Logout</Button>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <button className="btn btn-secondary" onClick={handlePreviousMonth}>Previous</button>
+        <Button className="btn btn-secondary" onClick={handlePreviousMonth}>Previous</Button>
         <h3>{dayjs(new Date(currentYear, currentMonth)).format('MMMM YYYY')}</h3>
-        <button className="btn btn-secondary" onClick={handleNextMonth}>Next</button>
+        <Button className="btn btn-secondary" onClick={handleNextMonth}>Next</Button>
       </div>
       <div className="calendar-container">
-        <Month month={daysMatrix} currentMonth={currentMonth} onDayClick={handleDayClick} />
+        <Month month={daysMatrix} currentMonth={currentMonth} onDayClick={handleDayClick} events={events} onEventDotClick={handleEventDotClick} />
       </div>
+      <AddEventModal isOpen={modalOpen} toggle={toggleModal} onAddEvent={handleAddEvent} />
+      <EventDetailsModal 
+        isOpen={eventDetailsModalOpen} 
+        toggle={toggleEventDetailsModal} 
+        event={selectedEvent} 
+        onDeleteEvent={handleDeleteEvent} 
+        onEditEvent={handleEditEvent} 
+      />
     </div>
   );
 };
 
 export default Dashboard;
+
+
+
+
+

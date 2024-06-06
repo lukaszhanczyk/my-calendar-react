@@ -2,7 +2,7 @@ import React from 'react';
 import { Col } from 'reactstrap';
 import './Day.css';
 
-export default function Day({ day, currentMonth, onDayClick }) {
+export default function Day({ day, currentMonth, onDayClick, events }) {
   const isCurrentMonth = day.isCurrentMonth;
   const isToday = day.isToday;
 
@@ -14,9 +14,20 @@ export default function Day({ day, currentMonth, onDayClick }) {
 
   return (
     <Col className={`border p-2 text-center day ${isCurrentMonth ? 'current-month' : 'other-month'} ${isToday ? 'today' : ''}`} onClick={handleClick}>
-      <div className="date-number">
+      <div className='date-div'>
+        <div className="date-number">
         <span>{day.date.date()}</span>
-      </div>
+        </div>
+        <div className="events">
+          {events.map((event, idx) => (
+            <div
+              key={idx}
+              className="event-rectangle"
+              style={{ backgroundColor: event.color }}
+            ></div>
+          ))}
+        </div>
+      </div>  
     </Col>
   );
 }

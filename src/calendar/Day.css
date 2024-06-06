@@ -37,3 +37,21 @@
   width: 30px;
   height: 30px;
 }
+.date-div {
+  width: 100%;
+}
+
+.events {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 5px; /* Positions rectangles under the date */
+}
+
+.event-rectangle {
+  width: 80%; /* Adjust width as needed */
+  height: 20px; /* Adjust height as needed */
+  margin: 2px; /* Adjust margin as needed */
+  border-radius: 10px; /* Optional: slightly round the corners */
+}
