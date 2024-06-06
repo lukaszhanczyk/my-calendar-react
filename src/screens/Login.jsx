@@ -29,24 +29,28 @@ const LoginForm = ({ onSubmit, onCreateAccount, error }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Input
-        className="mb-3"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <Input
-        type="password"
-        className="mb-3"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <div className="d-grid gap-2">
-        <Button color="primary" type="submit" disabled={!isFormValid()}>
+        <Input
+          className="mb-3 input"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          type="password"
+          className="mb-3 input"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      <div className="d-grid gap-2 buttons-container">
+        <Button
+          className={`button login ${isFormValid() ? "login-valid" : ""}`}
+          type="submit"
+          disabled={!isFormValid()}
+        >
           Login
         </Button>
-        <Button color="secondary" onClick={onCreateAccount}>
+        <Button className="button button-secondary" onClick={onCreateAccount}>
           Create new account
         </Button>
       </div>
@@ -89,12 +93,22 @@ const Login = () => {
       <Row className="vh-100">
         <Col md="6" className="left-side d-none d-md-flex">
           <h1>Welcome Back!</h1>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
         </Col>
         <Col
           xs="12"
           md="6"
           className="right-side d-flex align-items-center justify-content-center"
         >
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
           <div className="login-form">
             <h2>Login</h2>
             <LoginForm

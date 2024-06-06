@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Col, Container, Form, Input, Row, Button } from "reactstrap";
 import axiosClient from "../client/axios-client";
-import "./Login.css";
+import "./Register.css";
 
 const RegisterForm = ({ onSubmit, onLogin, error }) => {
   const [email, setEmail] = useState("");
@@ -16,7 +16,12 @@ const RegisterForm = ({ onSubmit, onLogin, error }) => {
   };
 
   const isFormValid = () => {
-    return isEmailValid(email) && password && verifyPassword && password === verifyPassword;
+    return (
+      isEmailValid(email) &&
+      password &&
+      verifyPassword &&
+      password === verifyPassword
+    );
   };
 
   const handleSubmit = (event) => {
@@ -32,30 +37,34 @@ const RegisterForm = ({ onSubmit, onLogin, error }) => {
     <Form onSubmit={handleSubmit}>
       <Input
         type="email"
-        className="mb-3"
+        className="mb-3 input"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <Input
         type="password"
-        className="mb-3"
+        className="mb-3 input"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <Input
         type="password"
-        className="mb-3"
+        className="mb-3 input"
         placeholder="Verify Password"
         value={verifyPassword}
         onChange={(e) => setVerifyPassword(e.target.value)}
       />
-      <div className="d-grid gap-2">
-        <Button color="primary" type="submit" disabled={!isFormValid()}>
+      <div className="d-grid gap-2 buttons-container">
+        <Button
+          className={`button login ${isFormValid() ? "login-valid" : ""}`}
+          type="submit"
+          disabled={!isFormValid()}
+        >
           Register
         </Button>
-        <Button color="secondary" onClick={onLogin}>
+        <Button className="button button-secondary" onClick={onLogin}>
           Log into existing account
         </Button>
       </div>
@@ -86,7 +95,9 @@ const Register = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error("error", error);
-      setError("Failed to register. Please check your credentials and try again.");
+      setError(
+        "Failed to register. Please check your credentials and try again."
+      );
     }
   };
 
@@ -98,13 +109,23 @@ const Register = () => {
     <Container fluid className="login-container">
       <Row className="vh-100">
         <Col md="6" className="left-side d-none d-md-flex">
-          <h1>Welcome Back!</h1>
+          <h1>Let's Get Started!</h1>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
         </Col>
         <Col
           xs="12"
           md="6"
           className="right-side d-flex align-items-center justify-content-center"
         >
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
           <div className="login-form">
             <h2>Register</h2>
             <RegisterForm
