@@ -1,12 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Input } from 'reactstrap';
+import { Button } from 'reactstrap';
+import './Home.css';
 
 const Home = () => (
-  <div style={{ padding: '20px' }}>
-    <h2>Home</h2>
-    <p>Welcome to the home page!</p>
-    <Link to="/login">Go to Login</Link>
+  <div className="home-container">
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <div className="bubble"></div>
+    <h1 className="my-calendar-title">myCalendar</h1>
+    <p className="my-calendar-copy">Welcome to myCalendar, your personal planner and organizer. Stay on top of your schedule and manage your time effectively.</p>
+    <div className="button-container">
+      <Link to="/login">
+        <Button className="button">Go to Login</Button>
+      </Link>
+    </div>
   </div>
 );
 

@@ -1,0 +1,130 @@
+@keyframes gradientBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes bubble {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-1000px);
+    opacity: 0;
+  }
+}
+
+@keyframes gradientButton {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.home-container {
+  position: relative;
+  background: linear-gradient(270deg, #ff8a00, #e52e71, #9d50bb, #654ea3);
+  background-size: 800% 800%;
+  animation: gradientBackground 15s ease infinite;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -100px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: bubble 10s infinite;
+  z-index: 1;
+}
+
+.bubble:nth-child(2) {
+  left: 20%;
+  width: 20px;
+  height: 20px;
+  animation-duration: 7s;
+  animation-delay: 2s;
+}
+
+.bubble:nth-child(3) {
+  left: 40%;
+  width: 50px;
+  height: 50px;
+  animation-duration: 12s;
+  animation-delay: 4s;
+}
+
+.bubble:nth-child(4) {
+  left: 60%;
+  width: 25px;
+  height: 25px;
+  animation-duration: 9s;
+  animation-delay: 6s;
+}
+
+.bubble:nth-child(5) {
+  left: 80%;
+  width: 35px;
+  height: 35px;
+  animation-duration: 14s;
+  animation-delay: 8s;
+}
+
+.button-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 5px;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(270deg, #9d50bb, #654ea3, #ff8a00, #e52e71);
+  background-size: 800% 800%;
+  animation: gradientButton 15s ease infinite;
+}
+
+.button:hover {
+  background-position: 0% 50%;
+}
+
+.my-calendar-title {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  z-index: 10;
+}
+
+.my-calendar-copy {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  z-index: 10;
+}
