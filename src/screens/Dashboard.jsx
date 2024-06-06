@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import Month from '../calendar/Month.jsx';
 import dayjs from 'dayjs';
@@ -37,7 +37,7 @@ function getMonth(year, month) {
 }
 
 const Dashboard = () => {
-  const { logout } = useAuth();
+  const { logout, userEmail } = useAuth();
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   const [events, setEvents] = useState([]);
@@ -99,6 +99,10 @@ const Dashboard = () => {
   const toggleEventDetailsModal = () => {
     setEventDetailsModalOpen(!eventDetailsModalOpen);
   };
+
+  useEffect(() => {
+    console.log('User email:', userEmail);
+  },[])
 
   return (
     <div className="container mt-4">
