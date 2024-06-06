@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col } from 'reactstrap';
 import './Day.css';
 
-export default function Day({ day, currentMonth, onDayClick, events }) {
+export default function Day({ day, currentMonth, onDayClick, onEventClick, events }) {
   const isCurrentMonth = day.isCurrentMonth;
   const isToday = day.isToday;
 
@@ -12,6 +12,14 @@ export default function Day({ day, currentMonth, onDayClick, events }) {
     }
   };
 
+  const handleEventClick = (e, eventId) => {
+    e.stopPropagation();
+    if (onEventClick) {
+      onEventClick(eventId);
+    }
+  };
+
+
   return (
     <Col className={`border p-2 text-center day ${isCurrentMonth ? 'current-month' : 'other-month'} ${isToday ? 'today' : ''}`} onClick={handleClick}>
       <div className='date-div'>
@@ -19,12 +27,13 @@ export default function Day({ day, currentMonth, onDayClick, events }) {
         <span>{day.date.date()}</span>
         </div>
         <div className="events">
-          {events.map((event, idx) => (
+          {events.map((event) => (
             <div
-              key={idx}
-              className="event-rectangle"
-              style={{ backgroundColor: event.color }}
-            ></div>
+                onClick={(elem) => handleEventClick(elem, event.id)}
+                key={event.id}
+                className="event-rectangle"
+                style={{ backgroundColor: event.color }}
+            >{event.title}</div>
           ))}
         </div>
       </div>  

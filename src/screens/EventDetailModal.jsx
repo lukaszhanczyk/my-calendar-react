@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 const EventDetailsModal = ({ isOpen, toggle, event, onDeleteEvent, onEditEvent }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(event ? event.title : '');
-  const [editedDetails, setEditedDetails] = useState(event ? event.details : '');
+  const [editedTitle, setEditedTitle] = useState('');
+  const [editedDetails, setEditedDetails] = useState('');
+
+    useEffect(() => {
+        if (event){
+            setEditedTitle(event.title);
+            setEditedDetails(event.description);
+        }
+    }, [event]);
 
   if (!event) {
     return null; 
@@ -15,7 +22,9 @@ const EventDetailsModal = ({ isOpen, toggle, event, onDeleteEvent, onEditEvent }
   };
 
   const handleSave = () => {
-    const updatedEvent = { ...event, title: editedTitle, details: editedDetails };
+    const updatedEvent = event;
+    updatedEvent.title = editedTitle
+    updatedEvent.description = editedDetails
     onEditEvent(updatedEvent);
     setIsEditing(false);
   };
@@ -32,7 +41,7 @@ const EventDetailsModal = ({ isOpen, toggle, event, onDeleteEvent, onEditEvent }
                 type="text" 
                 name="editedTitle" 
                 id="editedTitle" 
-                value={editedTitle} 
+                value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)} 
               />
             </FormGroup>
@@ -42,13 +51,13 @@ const EventDetailsModal = ({ isOpen, toggle, event, onDeleteEvent, onEditEvent }
                 type="textarea" 
                 name="editedDetails" 
                 id="editedDetails" 
-                value={editedDetails} 
+                value={editedDetails}
                 onChange={(e) => setEditedDetails(e.target.value)} 
               />
             </FormGroup>
           </Form>
         ) : (
-          <p>Details: {event.details}</p>
+          <p>Details: {event.description}</p>
         )}
       </ModalBody>
       <ModalFooter>
