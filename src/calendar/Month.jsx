@@ -3,7 +3,7 @@ import Day from './Day';
 import WeekdaysHeader from './WeekdaysHeader';
 import './Month.css';
 
-const Month = ({ month, currentMonth, onDayClick, events }) => {
+const Month = ({ month, currentMonth, onDayClick, onEventClick, events }) => {
   return (
     <div className="month">
       <WeekdaysHeader />
@@ -15,7 +15,8 @@ const Month = ({ month, currentMonth, onDayClick, events }) => {
               day={day}
               currentMonth={currentMonth}
               onDayClick={onDayClick}
-              events={events.filter(event => event.date.isSame(day.date, 'day'))} // Filter events for the specific day
+              onEventClick={onEventClick}
+              events={events?.filter(event => event.date.format('YYYY-MM-DD') === (day.date.format('YYYY-MM-DD')))} // Filter events for the specific day
             />
           ))}
         </div>

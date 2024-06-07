@@ -76,7 +76,7 @@ const Login = () => {
         password: credentials.password,
       });
       console.log("response", response);
-      login(credentials.email);
+      login(response.data);
       navigate("/dashboard");
     } catch (error) {
       console.error("error", error);

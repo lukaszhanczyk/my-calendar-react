@@ -7,3 +7,8 @@
 .day {
   height: 100px;
 }
+
+.btn-logout {
+  width: 100px;
+  background-color: #654ea3 !important;
+}
