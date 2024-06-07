@@ -91,8 +91,7 @@ const Register = () => {
         verify_password: credentials.verifyPassword,
       });
       console.log("response", response);
-      login(credentials.email);
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
       console.error("error", error);
       setError(

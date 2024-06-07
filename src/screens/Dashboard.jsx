@@ -160,6 +160,7 @@ const Dashboard = () => {
     setEventDetailsModalOpen(!eventDetailsModalOpen);
   };
 
+
   return (
       <div className="container mt-4">
         <div className='header-container'>
@@ -174,7 +175,7 @@ const Dashboard = () => {
         <div className="calendar-container">
           <Month month={daysMatrix} currentMonth={currentMonth} onDayClick={handleDayClick} onEventClick={handleEventClick} events={events} onEventDotClick={handleEventDotClick} />
         </div>
-        <AddEventModal isOpen={modalOpen} onAddEvent={handleAddEvent} />
+        <AddEventModal isOpen={modalOpen} onAddEvent={handleAddEvent} onToggle ={toggleModal} />
         <EventDetailsModal
             isOpen={eventDetailsModalOpen}
             toggle={toggleEventDetailsModal}
