@@ -57,7 +57,7 @@ const Dashboard = () => {
           params: {
             year: currentYear,
             month: currentMonth + 1,
-            user_id: 4,
+            user_id: user.id,
           }
         }
     ).then(response => {
@@ -162,13 +162,14 @@ const Dashboard = () => {
 
   return (
       <div className="container mt-4">
-        <h2>Dashboard</h2>
-        <p>This is a protected page.</p>
+        <div className='header-container'>
+        <h2>myCalendar</h2>
         <Button className="btn btn-primary mb-4" onClick={logout}>Logout</Button>
+        </div>
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <Button className="btn btn-secondary" onClick={handlePreviousMonth}>Previous</Button>
+          <Button className="btn btn-secondary" onClick={handlePreviousMonth}>{"<--"}</Button>
           <h3>{dayjs(new Date(currentYear, currentMonth)).format('MMMM YYYY')}</h3>
-          <Button className="btn btn-secondary" onClick={handleNextMonth}>Next</Button>
+          <Button className="btn btn-secondary" onClick={handleNextMonth}>{"-->"}</Button>
         </div>
         <div className="calendar-container">
           <Month month={daysMatrix} currentMonth={currentMonth} onDayClick={handleDayClick} onEventClick={handleEventClick} events={events} onEventDotClick={handleEventDotClick} />

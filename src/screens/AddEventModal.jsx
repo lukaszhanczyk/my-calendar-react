@@ -37,10 +37,10 @@ const AddEventModal = ({ isOpen, onAddEvent }) => {
           <FormGroup>
             <Label>Event Color</Label>
             <div className="color-selector">
-              <div className={`color-option ${selectedColor === 'blue' && 'selected'}`} style={{ backgroundColor: '#171ca6' }} onClick={() => handleColorSelect('blue')}></div>
-              <div className={`color-option ${selectedColor === 'green' && 'selected'}`} style={{ backgroundColor: '#12731c' }} onClick={() => handleColorSelect('green')}></div>
-              <div className={`color-option ${selectedColor === 'red' && 'selected'}`} style={{ backgroundColor: '#b8291c' }} onClick={() => handleColorSelect('red')}></div>
-              <div className={`color-option ${selectedColor === 'yellow' && 'selected'}`} style={{ backgroundColor: '#a69717' }} onClick={() => handleColorSelect('yellow')}></div>
+              <div className={`color-option ${selectedColor === 'blue' && 'selected'}`} style={{ backgroundColor: '#ff8a00' }} onClick={() => handleColorSelect('ff8a00')}></div>
+              <div className={`color-option ${selectedColor === 'green' && 'selected'}`} style={{ backgroundColor: '#e52e71' }} onClick={() => handleColorSelect('green')}></div>
+              <div className={`color-option ${selectedColor === 'red' && 'selected'}`} style={{ backgroundColor: '#9d50bb' }} onClick={() => handleColorSelect('red')}></div>
+              <div className={`color-option ${selectedColor === 'yellow' && 'selected'}`} style={{ backgroundColor: '#654ea3' }} onClick={() => handleColorSelect('yellow')}></div>
             </div>
           </FormGroup>
           <Button type="submit" color="primary">Add</Button>

@@ -19,6 +19,13 @@ export default function Day({ day, currentMonth, onDayClick, onEventClick, event
     }
   };
 
+  const eventColors = {
+    blue: '#ff8a00',
+    green: '#e52e71',
+    red: '#9d50bb',
+    yellow: '#654ea3'
+  };
+
 
   return (
     <Col className={`border p-2 text-center day ${isCurrentMonth ? 'current-month' : 'other-month'} ${isToday ? 'today' : ''}`} onClick={handleClick}>
@@ -32,8 +39,8 @@ export default function Day({ day, currentMonth, onDayClick, onEventClick, event
                 onClick={(elem) => handleEventClick(elem, event.id)}
                 key={event.id}
                 className="event-rectangle"
-                style={{ backgroundColor: event.color }}
-            >{event.title}</div>
+                style={{ backgroundColor: eventColors[event.color] || event.color }}
+            ></div>
           ))}
         </div>
       </div>  

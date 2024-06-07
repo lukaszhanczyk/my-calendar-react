@@ -1,3 +1,20 @@
+.daysofweek {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
 .day {
+  flex: 1;
   padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 16px; /* Default font size */
+}
+
+/* Media query for smaller devices */
+@media (max-width: 576px) {
+  .day {
+    font-size: 8px; /* Smaller font size for small devices */
+  }
 }

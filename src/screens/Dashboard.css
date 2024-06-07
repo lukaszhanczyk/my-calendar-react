@@ -1,4 +1,3 @@
-
 .calendar-container {
   width: auto;
   margin: 0 auto;
@@ -8,7 +7,17 @@
   height: 100px;
 }
 
-.btn-logout {
+.logout {
   width: 100px;
+  background-color: #e52e71 !important;
+}
+
+.btn-secondary {
   background-color: #654ea3 !important;
+}
+
+header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
 }
