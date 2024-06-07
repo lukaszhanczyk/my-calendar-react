@@ -9,6 +9,7 @@
   align-items: top;
   justify-content: center;
   cursor: pointer;
+  z-index: 100;
 }
 
 .date-number {
@@ -54,4 +55,5 @@
   height: 20px; /* Adjust height as needed */
   margin: 2px; /* Adjust margin as needed */
   border-radius: 10px; /* Optional: slightly round the corners */
+  z-index: 999;
 }

@@ -5,20 +5,78 @@ import { Col, Container, Form, Input, Row, Button } from "reactstrap";
 import axiosClient from "../client/axios-client";
 import "./Login.css";
 
+const LoginForm = ({ onSubmit, onCreateAccount, error }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isFormValid = () => {
+    return isEmailValid(email) && password;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!isFormValid()) {
+      onSubmit(null, "Please ensure all fields are filled correctly.");
+      return;
+    }
+    onSubmit({ email, password });
+  };
+
+  return (
+    <Form onSubmit={handleSubmit}>
+        <Input
+          className="mb-3 input"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          type="password"
+          className="mb-3 input"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      <div className="d-grid gap-2 buttons-container">
+        <Button
+          className={`button login ${isFormValid() ? "login-valid" : ""}`}
+          type="submit"
+          disabled={!isFormValid()}
+        >
+          Login
+        </Button>
+        <Button className="button button-secondary" onClick={onCreateAccount}>
+          Create new account
+        </Button>
+      </div>
+      {error && <p className="text-danger">{error}</p>}
+    </Form>
+  );
+};
+
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (credentials) => {
+    if (!credentials) {
+      setError("Please ensure all fields are filled correctly.");
+      return;
+    }
+
     try {
-      const response = await axiosClient.post("/auth/login", { username: email, password });
+      const response = await axiosClient.post("/auth/login", {
+        username: credentials.email,
+        password: credentials.password,
+      });
       console.log("response", response);
-      login(); 
+      login(response.data);
       navigate("/dashboard");
     } catch (error) {
       console.error("error", error);
@@ -33,36 +91,31 @@ const Login = () => {
   return (
     <Container fluid className="login-container">
       <Row className="vh-100">
-        <Col className="left-side"></Col>
-        <Col className="right-side d-flex align-items-center justify-content-center">
+        <Col md="6" className="left-side d-none d-md-flex">
+          <h1>Welcome Back!</h1>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+        </Col>
+        <Col
+          xs="12"
+          md="6"
+          className="right-side d-flex align-items-center justify-content-center"
+        >
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
+          <div className="bubble"></div>
           <div className="login-form">
             <h2>Login</h2>
-            <Form onSubmit={handleLogin}>
-              <Input 
-                className="mb-3" 
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-              <Input 
-                type="password" 
-                className="mb-3" 
-                placeholder="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-              <Button color="primary" type="submit">
-                Login
-              </Button>
-              <Button
-                color="primary"
-                onClick={handleCreateAccount}
-                style={{ marginLeft: 20 }}
-              >
-                Create new account
-              </Button>
-              {error && <p className="text-danger">{error}</p>}
-            </Form>
+            <LoginForm
+              onSubmit={handleLogin}
+              onCreateAccount={handleCreateAccount}
+              error={error}
+            />
           </div>
         </Col>
       </Row>

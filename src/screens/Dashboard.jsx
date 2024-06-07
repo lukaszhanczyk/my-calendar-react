@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import Month from '../calendar/Month.jsx';
 import dayjs from 'dayjs';
 import { Button } from 'reactstrap';
+import axiosClient from "../client/axios-client";
 import AddEventModal from './AddEventModal.jsx';
 import EventDetailsModal from './EventDetailModal.jsx';
 import "./Dashboard.css";
@@ -37,7 +38,7 @@ function getMonth(year, month) {
 }
 
 const Dashboard = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   const [events, setEvents] = useState([]);
@@ -47,6 +48,36 @@ const Dashboard = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const daysMatrix = getMonth(currentYear, currentMonth);
+
+  const refreshEvents = () => {
+    setEvents([])
+    axiosClient.get(
+        `/event/range`,
+        {
+          params: {
+            year: currentYear,
+            month: currentMonth + 1,
+            user_id: 4,
+          }
+        }
+    ).then(response => {
+      const _events = response.data;
+
+      _events.map(event => {
+        let arrayDate = event.date.split('-');
+        event.date = dayjs(new Date(arrayDate[0], parseInt(arrayDate[1]) - 1, arrayDate[2]))
+      });
+
+      if (events) {
+        setEvents(_events);
+      } else {
+        setEvents([])
+      }
+    })
+  }
+  useEffect(() => {
+    refreshEvents();
+  }, [currentMonth]);
 
   const handlePreviousMonth = () => {
     const newDate = dayjs(new Date(currentYear, currentMonth, 1)).subtract(1, 'month');
@@ -62,29 +93,58 @@ const Dashboard = () => {
 
   const handleDayClick = (date) => {
     setSelectedDate(date);
-    const existingEvent = events.find(event => event.date.isSame(date, 'day'));
+    setModalOpen(true);
+  };
+
+  const handleEventClick = (eventId) => {
+    const existingEvent = events.find(event => event.id === eventId);
     if (existingEvent) {
       setSelectedEvent(existingEvent);
       setEventDetailsModalOpen(true);
-    } else {
-      setModalOpen(true);
     }
   };
 
   const handleAddEvent = (eventTitle, eventDetails, color) => {
-    const newEvent = { date: selectedDate, title: eventTitle, details: eventDetails, color };
-    setEvents(prevEvents => [...prevEvents, newEvent]);
-    setModalOpen(false);
+    const newEvent = { date: selectedDate, title: eventTitle, details: eventDetails, color: color };
+    axiosClient.post(
+        `/event/create`,
+        {
+          title: newEvent.title,
+          description: newEvent.details,
+          date: selectedDate.format('YYYY-MM-DD'),
+          color: newEvent.color,
+          user_id: user.id
+        }
+    ).then(() => {
+      refreshEvents();
+      setModalOpen(false);
+    })
   };
 
   const handleDeleteEvent = (eventToDelete) => {
-    setEvents(prevEvents => prevEvents.filter(event => event !== eventToDelete));
-    setEventDetailsModalOpen(false);
+    axiosClient.delete(
+        `/event/delete/${eventToDelete.id}`,
+    ).then(() => {
+      refreshEvents();
+      setEventDetailsModalOpen(false);
+    });
   };
 
   const handleEditEvent = (updatedEvent) => {
-    setEvents(prevEvents => prevEvents.map(event => event === selectedEvent ? updatedEvent : event));
-    setEventDetailsModalOpen(false);
+    axiosClient.put(
+        `/event/update`,
+        {
+          id: updatedEvent.id,
+          title: updatedEvent.title,
+          description: updatedEvent.description,
+          date: updatedEvent.date.format('YYYY-MM-DD'),
+          color: updatedEvent.color,
+          user_id: updatedEvent.user.id
+        }
+    ).then(() => {
+      refreshEvents();
+      setEventDetailsModalOpen(false);
+    });
   };
 
   const toggleModal = () => {
@@ -101,29 +161,27 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>My Calendar</h2>
-      <div className='d-flex justify-content-start align-items-center'>
-        <Button className="btn btn-logout" onClick={logout}>Logout</Button>
+      <div className="container mt-4">
+        <h2>Dashboard</h2>
+        <p>This is a protected page.</p>
+        <Button className="btn btn-primary mb-4" onClick={logout}>Logout</Button>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <Button className="btn btn-secondary" onClick={handlePreviousMonth}>Previous</Button>
+          <h3>{dayjs(new Date(currentYear, currentMonth)).format('MMMM YYYY')}</h3>
+          <Button className="btn btn-secondary" onClick={handleNextMonth}>Next</Button>
+        </div>
+        <div className="calendar-container">
+          <Month month={daysMatrix} currentMonth={currentMonth} onDayClick={handleDayClick} onEventClick={handleEventClick} events={events} onEventDotClick={handleEventDotClick} />
+        </div>
+        <AddEventModal isOpen={modalOpen} onAddEvent={handleAddEvent} />
+        <EventDetailsModal
+            isOpen={eventDetailsModalOpen}
+            toggle={toggleEventDetailsModal}
+            event={selectedEvent}
+            onDeleteEvent={handleDeleteEvent}
+            onEditEvent={handleEditEvent}
+        />
       </div>
-      
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <Button className="btn btn-secondary" onClick={handlePreviousMonth}>Previous</Button>
-        <h3>{dayjs(new Date(currentYear, currentMonth)).format('MMMM YYYY')}</h3>
-        <Button className="btn btn-secondary" onClick={handleNextMonth}>Next</Button>
-      </div>
-      <div className="calendar-container">
-        <Month month={daysMatrix} currentMonth={currentMonth} onDayClick={handleDayClick} events={events} onEventDotClick={handleEventDotClick} />
-      </div>
-      <AddEventModal isOpen={modalOpen} toggle={toggleModal} onAddEvent={handleAddEvent} />
-      <EventDetailsModal 
-        isOpen={eventDetailsModalOpen} 
-        toggle={toggleEventDetailsModal} 
-        event={selectedEvent} 
-        onDeleteEvent={handleDeleteEvent} 
-        onEditEvent={handleEditEvent} 
-      />
-    </div>
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, ModalHeader, ModalBody, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import './AddEventModal.css';
 
-const AddEventModal = ({ isOpen, toggle, onAddEvent }) => {
+const AddEventModal = ({ isOpen, onAddEvent }) => {
   const [eventTitle, setEventTitle] = useState('');
   const [eventDetails, setEventDetails] = useState('');
   const [selectedColor, setSelectedColor] = useState('blue');
@@ -11,7 +11,6 @@ const AddEventModal = ({ isOpen, toggle, onAddEvent }) => {
     e.preventDefault();
     if (eventTitle.trim() !== '') {
       onAddEvent(eventTitle, eventDetails, selectedColor);
-      toggle();
       setEventTitle('');
       setEventDetails('');
       setSelectedColor('blue');
@@ -23,8 +22,8 @@ const AddEventModal = ({ isOpen, toggle, onAddEvent }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
-      <ModalHeader toggle={toggle}>Add Event</ModalHeader>
+    <Modal isOpen={isOpen} >
+      <ModalHeader>Add Event</ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <FormGroup>
