@@ -107,7 +107,7 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
-  background: linear-gradient(270deg, #9d50bb, #654ea3, #ff8a00, #e52e71);
+  background: #9d50bb !important;
   background-size: 800% 800%;
   animation: gradientButton 15s ease infinite;
 }
