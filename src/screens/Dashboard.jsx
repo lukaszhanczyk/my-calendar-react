@@ -102,9 +102,11 @@ const Dashboard = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Dashboard</h2>
-      <p>This is a protected page.</p>
-      <Button className="btn btn-primary mb-4" onClick={logout}>Logout</Button>
+      <h2>My Calendar</h2>
+      <div className='d-flex justify-content-start align-items-center'>
+        <Button className="btn btn-logout" onClick={logout}>Logout</Button>
+      </div>
+      
       <div className="d-flex justify-content-between align-items-center mb-4">
         <Button className="btn btn-secondary" onClick={handlePreviousMonth}>Previous</Button>
         <h3>{dayjs(new Date(currentYear, currentMonth)).format('MMMM YYYY')}</h3>
