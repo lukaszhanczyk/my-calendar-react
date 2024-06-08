@@ -24,11 +24,11 @@
 }
 
 .current-month .date-number {
-  color: black; /* Color for current month */
+  color: black;
 }
 
 .other-month .date-number {
-  color: #b4b5b6; /* Muted text color for other months */
+  color: #b4b5b6;
 }
 
 .day.today .date-number {
@@ -49,14 +49,14 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 5px; /* Positions rectangles under the date */
+  margin-top: 5px;
 }
 
 .event-rectangle {
-  width: 80%; /* Adjust width as needed */
-  height: 20px; /* Adjust height as needed */
-  margin: 2px; /* Adjust margin as needed */
-  border-radius: 10px; /* Optional: slightly round the corners */
+  width: 80%;
+  height: 20px;
+  margin: 2px;
+  border-radius: 10px;
   z-index: 999;
 }
 

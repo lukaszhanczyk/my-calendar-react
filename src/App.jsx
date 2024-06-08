@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import axiosClient from "./client/axios-client";
 import Home from './screens/Home';
 import Login from './screens/Login';
 import Dashboard from './screens/Dashboard';
